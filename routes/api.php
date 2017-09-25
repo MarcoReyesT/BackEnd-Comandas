@@ -27,3 +27,5 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 });
 
 Route::post('/login', 'AuthController@userAuth');
+
+Route::get('register/verify/{confirmationCode}', 'UserController@confirm');

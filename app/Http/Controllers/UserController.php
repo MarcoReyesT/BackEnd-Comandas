@@ -9,23 +9,24 @@ use Input;
 
 class UserController extends Controller
 {
-    /*
-    **
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return User::with('empresa.propiedades')->get();
-    }
+  /*
+  **
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index()
+  {
+      return User::with('empresa.propiedades')->get();
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+
   public function store(Request $request){
 
     $confirmation_code = str_random(30);
@@ -62,40 +63,56 @@ class UserController extends Controller
     }
   }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return User::find($id);
-    }
+  public function confirm ($confirmation_code) {
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $user = User::find($id);
-        $user->update($request->all());
-        return ['updated' => true];
+    if (!$confirmation_code) {
+      return \Response::json(['confirmation_code' => 'Invalid'], 500);
     }
+    $user = User::whereConfirmationCode($confirmation_code)->first();
+    if (!$user) {
+      return \Response::json(['confirmation_code' => 'Invalid'], 500);
+    }
+    $user->confirmed = 1;
+    $user->confirmation_code = null;
+    $user->save();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        Propiedad::destroy($id);
-        return ['deleted' => true];
-    }
+    return \Response::json(['verified' => true, 'confirmed' => $user->confirmed]);
+  }
+
+  /**
+   * Display the specified resource.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function show($id)
+  {
+      return User::find($id);
+  }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function update(Request $request, $id)
+  {
+      $user = User::find($id);
+      $user->update($request->all());
+      return ['updated' => true];
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function destroy($id)
+  {
+      Propiedad::destroy($id);
+      return ['deleted' => true];
+  }
 }
