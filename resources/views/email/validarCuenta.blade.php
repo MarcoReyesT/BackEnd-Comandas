@@ -1,0 +1,1 @@
+Clic para validar cuenta <a href="http://localhost:8000/api/{{ $confirmation_code }}">Valida aquí</a>
