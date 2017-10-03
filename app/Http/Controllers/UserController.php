@@ -38,7 +38,7 @@ class UserController extends Controller
     $data = [
       'email' => $request->email,
       'name' => $request->name,
-      'password' => bcrypt('secret'),
+      'password' => $request->password,
       'confirmation_code' => $confirmation_code,
     ];
     try {
