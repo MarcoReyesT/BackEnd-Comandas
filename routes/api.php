@@ -24,8 +24,13 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::resource('propiedades', 'PropiedadController');
 
 	Route::resource('usuarios', 'UserController');
+	
+	//Obtener al usuario logueado
+	Route::get('/getUser', 'AuthController@getAuthenticatedUser');
 });
 
-Route::post('/login', 'AuthController@userAuth');
+//Obtener token para un usuario registrado y activado
+Route::post('/login', 'AuthController@authenticate');
 
+//Verificar cuenta
 Route::get('register/verify/{confirmationCode}', 'UserController@confirm');
