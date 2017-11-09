@@ -17,7 +17,7 @@ class UserController extends Controller
    */
   public function index()
   {
-      return User::with('empresa.propiedades')->get();
+      return User::all();
   }
 
   /**

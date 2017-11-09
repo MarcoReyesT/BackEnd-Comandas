@@ -21,8 +21,4 @@ class User extends Authenticatable
         'password', 'remember_token', 'created_at', 'updated_at'
     ];
 
-    public function empresa() {
-        return $this->hasMany(Empresa::class, 'id_user');
-    }
-
 }

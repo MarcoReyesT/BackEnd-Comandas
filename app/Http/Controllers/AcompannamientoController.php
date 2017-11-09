@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Empresa;
+use App\Acompannamiento;
 
-class EmpresaController extends Controller
+class AcompannamientoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        return Empresa::with(['usuario', 'propiedades'])->get();
+        return Acompannamiento::all();
     }
 
     /**
@@ -25,7 +25,7 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        Empresa::create($request->all());
+        Acompannamiento::create($request->all());
         return ['created' => true];
     }
 
@@ -37,7 +37,7 @@ class EmpresaController extends Controller
      */
     public function show($id)
     {
-        return Empresa::find($id);
+        return Acompannamiento::find($id);
     }
 
     /**
@@ -49,8 +49,8 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $empresa = Empresa::find($id);
-        $empresa->update($request->all());
+        $acomp = Acompannamiento::find($id);
+        $acomp->update($request->all());
         return ['updated' => true];
     }
 
@@ -62,7 +62,7 @@ class EmpresaController extends Controller
      */
     public function destroy($id)
     {
-        Empresa::destroy($id);
+        Acompannamiento::destroy($id);
         return ['deleted' => true];
 
     }
